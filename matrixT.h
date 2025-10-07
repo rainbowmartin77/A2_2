@@ -17,46 +17,20 @@ typedef struct
 // Function for each thread to perform matrix multiplication
 void* matrixMultiplyThread(void* arg) 
 {
-    int divide = N/NUM_THREADS;
     long id = (long)arg;
     // Divide the task (rows) of each thread based on thread id
     // compute a portion of the matrix multiplication
-    if (id == 0) {
-        for (int i = 0; i < divide; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int m = 0; m < N; m++){
-                    C[i][j] = A[i][m] * B[m][j];
-                }
+    int divide = (N + NUM_THREADS - 1) / NUM_THREADS;
+    int start = id * divide;
+    int end = (start + divide > N) ? N : start + divide;
+    
+    /*for (int i = start; i < end; i++) {
+        for (int j = 0; j < N; j++) {
+            for (int m = 0; m < N; m++) {
+                C[i][j] += A[i][m] * B[m][j];
             }
         }
-    }
-    else if (id == 1) {
-        for (int i = divide; i < (divide * 2) ; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int m = 0; m < N; m++){
-                    C[i][j] = A[i][m] * B[m][j];
-                }
-            }
-        }
-    }
-    else if (id == 2) {
-        for (int i = (divide * 2); i < (divide * 3); i++) {
-            for (int j = 0; j < N; j++) {
-                for (int m = 0; m < N; m++){
-                    C[i][j] = A[i][m] * B[m][j];
-                }
-            }
-        }
-    }
-    else if (id == 3) {
-        for (int i = (divide * 3); i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int m = 0; m < N; m++){
-                    C[i][j] += A[i][m] * B[m][j];
-                }
-            }
-        }
-    }
+    }*/
 
     pthread_exit(NULL);
 }
