@@ -3,7 +3,7 @@
 #include <pthread.h>
 
 #define N 1000  // Size of the matrix
-#define NUM_THREADS 4  // Number of threads
+#define NUM_THREADS 1  // Number of threads
 
 int **A, **B, **C;  // Global matrices
 
@@ -24,13 +24,13 @@ void* matrixMultiplyThread(void* arg)
     int start = id * divide;
     int end = (start + divide > N) ? N : start + divide;
     
-    /*for (int i = start; i < end; i++) {
-        for (int j = 0; j < N; j++) {
-            for (int m = 0; m < N; m++) {
+    for (long i = start; i < end; i++) {
+        for (long j = 0; j < N; j++) {
+            for (long m = 0; m < N; m++) {
                 C[i][j] += A[i][m] * B[m][j];
             }
         }
-    }*/
+    }
 
     pthread_exit(NULL);
 }

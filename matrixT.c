@@ -38,7 +38,7 @@ int main()
     }
 
     // Wait for all threads to complete
-    for (long i = NUM_THREADS; i >= 0; i--) {
+    for (int i = 0; i < NUM_THREADS; i++) {
         pthread_join(thread_ID[i], NULL);
     }
 
