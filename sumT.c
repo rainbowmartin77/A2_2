@@ -7,13 +7,45 @@
 #define NUM_THREADS 4
 
 long long arr[SIZE];
-int partialSums[NUM_THREADS] = {0}; // Array to store partial sums for each thread
+long long partialSums[NUM_THREADS] = {0}; // Array to store partial sums for each thread
+long long divide = SIZE/NUM_THREADS;
 
 // Entry function for each thread
 void* sumPart(void* arg) 
 {
+    int id = *(int*)arg;
+
     // Divide the work for each thread based on their id and let them compute partial sums
-        // -----> Write your code here
+    if (id == 0) {
+        printf("Thread 0 started");
+        for (int x = 0; x < divide; x++){
+            partialSums[id] += arr[x];
+        }
+        prinf("Thread 0 completed, total is %lld.", partialSums[0]);
+    }
+    else if (id == 1) {
+        printf("Thread 1 started");
+        for (int x = divide; x < (divide * 2); x++){
+            partialSums[id] += arr[x];
+        }
+        printf("Thread 1 completed, total is %lld.", partialSums[1]);
+    }
+    else if (id == 2) {
+        printf("Thread 2 started");
+        for (int x = (divide * 2); x < (divide * 3); x++){
+            partialSums[id] += arr[x];
+        }
+        printf("Thread 2 completed, total is %lld.", partialSums[2]);
+    }
+    else {
+        printf("Thread 3 started.");
+        for (int x = (divide * 3); x < SIZE; x++){
+            partialSums[id] += arr[x];
+        }
+        printf("Thread 3 completed, total is %lld.", partialSums[3]);
+    }
+
+    pthread_exit(NULL);
 }
 
 int main() 
@@ -27,10 +59,14 @@ int main()
     int thread_ids[NUM_THREADS];
 
     // Create threads to compute partial sums
-        // ------> Write your code here
+    for (long i = 0; i < NUM_THREADS; i++) {
+        pthread_create(&threads[i], NULL, sumPart, &thread_ids[i]);
+    }
 
     // Wait for all threads to finish
-        // -------> Write your code here
+    for (long i = NUM_THREADS - 1; i >= 0; i--) {
+        pthread_join(threads[i], NULL);
+    }
 
     // Combine the partial sums from all threads
     long long totalSum = 0;
