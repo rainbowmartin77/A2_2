@@ -13,29 +13,15 @@ long long divide = SIZE/NUM_THREADS;
 // Entry function for each thread
 void* sumPart(void* arg) 
 {
-    long id;
-    id = (long)arg;
+    long id = (long)arg;
 
+    long long divide = (SIZE + NUM_THREADS - 1) / NUM_THREADS;
+    long long start = id * divide;
+    long long end = (start + divide > SIZE) ? SIZE : start + divide;
     // Divide the work for each thread based on their id and let them compute partial sums
-    if (id == 0) {
-        for (int x = 0; x < divide; x++){
-            partialSums[id] += arr[x];
-        }
-    }
-    else if (id == 1) {
-        for (int x = divide; x < (divide * 2); x++){
-            partialSums[id] += arr[x];
-        }
-    }
-    else if (id == 2) {
-        for (int x = (divide * 2); x < (divide * 3); x++){
-            partialSums[id] += arr[x];
-        }
-    }
-    else {
-        for (int x = (divide * 3); x < SIZE; x++){
-            partialSums[id] += arr[x];
-        }
+
+    for (long long i = start; i < end; i++) {
+        partialSums[id] += arr[i];
     }
 
     pthread_exit(NULL);
