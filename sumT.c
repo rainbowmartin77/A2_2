@@ -18,32 +18,24 @@ void* sumPart(void* arg)
 
     // Divide the work for each thread based on their id and let them compute partial sums
     if (id == 0) {
-        printf("Thread 0 started\n");
         for (int x = 0; x < divide; x++){
             partialSums[id] += arr[x];
         }
-        printf("Thread 0 completed, total is %lld.\n", partialSums[0]);
     }
     else if (id == 1) {
-        printf("Thread 1 started\n");
         for (int x = divide; x < (divide * 2); x++){
             partialSums[id] += arr[x];
         }
-        printf("Thread 1 completed, total is %lld.\n", partialSums[1]);
     }
     else if (id == 2) {
-        printf("Thread 2 started\n");
         for (int x = (divide * 2); x < (divide * 3); x++){
             partialSums[id] += arr[x];
         }
-        printf("Thread 2 completed, total is %lld.\n", partialSums[2]);
     }
     else {
-        printf("Thread 3 started.\n");
         for (int x = (divide * 3); x < SIZE; x++){
             partialSums[id] += arr[x];
         }
-        printf("Thread 3 completed, total is %lld.", partialSums[3]);
     }
 
     pthread_exit(NULL);
